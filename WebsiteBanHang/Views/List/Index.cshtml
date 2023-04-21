@@ -1,0 +1,66 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<WebsiteBanHang.Context.Product>
+
+@{ ViewBag.Title = "Index"; }
+
+<h2>Tất cả sản phẩm</h2>
+
+
+<style>
+    /* Set the style for the a tag */
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #29c9d4;
+    }
+        /* set the style for the active class */
+        .pagination a.active {
+            background-color: dodgerblu;
+            color: white;
+            display: inline-block;
+            width: 40px;
+            height: 48px;
+            border: 1px solid #ffb600;
+        }
+        /* add background color when user hovers on inactive class */
+        .pagination a:hover:not(.active) {
+            background-color: #4cff00;
+            display: inline-block;
+            width: 40px;
+            height: 48px;
+            border: 1px solid #00ffff;
+        }
+</style>
+<section class="section-content padding-y">
+    <div class="container">
+        <nav class="row">
+            <div class="row row-sm">
+                @foreach (var item in Model)
+                {
+    <div class="col-xl-4 col-lg-3 col-md-4 col-6  ">
+
+
+        <div class="card card-sm card-product-grid">
+            <a href="@Url.Action("Detail", "Product", new {Id = item.Id })" class="img-wrap">
+                <img src="~/Content/images/items/@item.Avartar">
+            </a>
+
+            <div class="info-wrap">
+                <a class="title accent-blue">@item.Name</a>
+                <div class="price mt-1">$@item.Price</div>
+            </div>
+        </div>
+    </div> <!-- col.// -->}
+            </div>
+
+
+        </nav> <!-- row.// -->
+
+    </div> <!-- container .//  -->
+</section>
+ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
